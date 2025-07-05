@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
-const API_URL = import.meta.env.VITE_BACKEND_URL/api/projects;
+const API_URL = "https://divyanshus-portfolio.onrender.com/api/projects"
 
 //get all projects
 
