@@ -10,15 +10,17 @@ router.get("/", async (req, res) => {
     res.json(projects);
 })
 
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", upload.single("video"), async (req, res) => {
   try {
     const { title, description, techStack, liveUrl, githubUrl } = req.body;
 
-    let imageUrl = "";
+    let videoUrl = "";
     if (req.file) {
-      // ✅ THIS LINE IS FAILING: cloudinary.uploader.upload is undefined
-      const result = await cloudinary.uploader.upload(req.file.path); // FIX: this works if cloudinary config is correct
-      imageUrl = result.secure_url;
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        resource_type: "video",
+        folder: "portfolio_projects",
+      });
+      videoUrl = result.secure_url;
     }
 
     const newProject = new Project({
@@ -27,7 +29,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       techStack,
       liveUrl,
       githubUrl,
-      image: imageUrl,
+      video: videoUrl,
     });
 
     await newProject.save();

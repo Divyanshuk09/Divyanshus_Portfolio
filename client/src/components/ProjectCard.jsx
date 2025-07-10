@@ -5,23 +5,31 @@ import { CiGlobe } from "react-icons/ci";
 const ProjectCard = ({ project }) => {
   return (
     <div className="bg-[#1a1a1a] rounded-xl overflow-hidden text-left shadow-md hover:shadow-xl hover:scale-[1.02] transition-all border border-zinc-800 flex flex-col h-full">
-      
-      {project.image ? (
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-48 object-cover"
+      {project.video ? (
+        <video
+          src={project.video}
+          className="w-full h-48 object-cover rounded-t-xl"
+          muted
+          loop
+          playsInline
+          onMouseEnter={(e) => e.currentTarget.play()}
+          onMouseLeave={(e) => {
+            e.currentTarget.pause();
+            e.currentTarget.currentTime = 0;
+          }}
         />
       ) : (
-        <div className="w-full h-48 flex items-center justify-center bg-zinc-700 text-gray-300 text-lg font-semibold">
-          Project Image
+        <div className="w-full h-48 flex items-center justify-center bg-zinc-700 text-gray-300 text-lg font-semibold rounded-t-xl">
+          Project Demo
         </div>
       )}
 
       <div className="p-2 flex flex-col flex-grow">
         {/* Title & Description */}
         <div>
-          <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
+          <h3 className="text-xl font-semibold text-white mb-2">
+            {project.title}
+          </h3>
           <p className="text-sm text-gray-400 leading-relaxed mb-4">
             {project.description}
           </p>
