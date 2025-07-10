@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", upload.single("video"), async (req, res) => {
   try {
-    const { title, description, techStack, liveUrl, githubUrl } = req.body;
+    console.log("req.file:", req.file)
 
     let videoUrl = "";
     if (req.file) {
@@ -20,24 +20,22 @@ router.post("/", upload.single("video"), async (req, res) => {
         resource_type: "video",
         folder: "portfolio_projects",
       });
+      console.log("cloudinary result:", result);
       videoUrl = result.secure_url;
     }
 
     const newProject = new Project({
-      title,
-      description,
-      techStack,
-      liveUrl,
-      githubUrl,
+      ...req.body,
       video: videoUrl,
     });
 
     await newProject.save();
     res.status(201).json(newProject);
   } catch (err) {
-    console.error("Upload error:", err);
+    console.error("❌ Upload error:", err);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 export default router;
